@@ -1,50 +1,79 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Mahasiswa</title>
 </head>
 <body>
 
     <h1>Form Mahasiswa</h1>
 
-    @if ($errors->any())
-        <h2>Data belum valid</h2>
+    @if (session('sukses'))
+        <p>{{ session('sukses') }}</p>
+    @endif
 
+    @if ($errors->any())
+        <h3>Terjadi Kesalahan</h3>
         <ul>
-            @foreach ($errors->all() as $pesan)
-                <li>{{ $pesan }}</li>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
             @endforeach
         </ul>
     @endif
 
-    <form method="POST" action="/form-mahasiswa" novalidate>
-
+    <form action="{{ url('/form-mahasiswa') }}" method="POST">
         @csrf
 
         <p>
-            <label>Nama:</label><br>
-            <input type="text" name="nama" value="{{ old('nama') }}">
+            <label for="nim">NIM:</label><br>
+            <input
+                type="text"
+                id="nim"
+                name="nim"
+                value="{{ old('nim') }}"
+                required
+            >
         </p>
 
         <p>
-            <label>Email:</label><br>
-            <input type="email" name="email" value="{{ old('email') }}">
+            <label for="nama">Nama:</label><br>
+            <input
+                type="text"
+                id="nama"
+                name="nama"
+                value="{{ old('nama') }}"
+                required
+            >
         </p>
 
         <p>
-            <label>Usia:</label><br>
-            <input type="number" name="usia" value="{{ old('usia') }}">
+            <label for="email">Email:</label><br>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                value="{{ old('email') }}"
+                required
+            >
         </p>
 
         <p>
-            <label>NIM:</label><br>
-            <input type="text" name="nim" value="{{ old('nim') }}">
+            <label for="usia">Usia:</label><br>
+            <input
+                type="number"
+                id="usia"
+                name="usia"
+                value="{{ old('usia') }}"
+                min="1"
+                required
+            >
         </p>
 
-        <button type="submit">Kirim</button>
-
+        <button type="submit">Simpan Data</button>
     </form>
 
 </body>
 </html>
+```
