@@ -23,7 +23,7 @@
         </ul>
     @endif
 
-    <form action="{{ url('/form-mahasiswa') }}" method="POST">
+    <form action="{{ route('mahasiswa.store') }}" method="POST">
         @csrf
 
         <p>
