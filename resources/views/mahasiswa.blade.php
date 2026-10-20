@@ -13,6 +13,13 @@
     @if (session('sukses'))
         <p>{{ session('sukses') }}</p>
     @endif
+    @if (session('berhasil'))
+    <p>{{ session('berhasil') }}</p>
+@endif
+
+@if (session('gagal'))
+    <p>{{ session('gagal') }}</p>
+@endif
 
     @if ($errors->any())
         <h3>Terjadi Kesalahan</h3>
@@ -70,8 +77,41 @@
     <hr>
 
     <h2>Daftar Mahasiswa</h2>
+    <form action="{{ route('mahasiswa.index') }}" method="GET">
+    <p>
+        <label for="q">Cari Mahasiswa:</label><br>
+        <input
+            type="text"
+            id="q"
+            name="q"
+            value="{{ $kataKunci }}"
+            placeholder="Cari NIM, nama, atau email"
+        >
+    </p>
 
-    <table border="1" cellpadding="6" cellspacing="0">
+    <p>
+        <label for="filter_program_studi">Filter Program Studi:</label><br>
+        <select id="filter_program_studi" name="program_studi_id">
+            <option value="">Semua Program Studi</option>
+
+            @foreach ($daftarProgramStudi as $programStudi)
+                <option
+                    value="{{ $programStudi['id'] }}"
+                    @selected($programStudiId == $programStudi['id'])
+                >
+                    {{ $programStudi['nama_prodi'] }}
+                </option>
+            @endforeach
+        </select>
+    </p>
+
+    <button type="submit">Cari / Filter</button>
+    <a href="{{ route('mahasiswa.index') }}">Reset</a>
+</form>
+
+<hr>
+
+    <table border="1" cellpadding="7" cellspacing="0">
         <thead>
             <tr>
                 <th>No.</th>
@@ -80,6 +120,7 @@
                 <th>Email</th>
                 <th>Usia</th>
                 <th>Program Studi</th>
+                <th>Aksi</th>
             </tr>
         </thead>
 
@@ -92,6 +133,23 @@
                     <td>{{ $mahasiswa['email'] }}</td>
                     <td>{{ $mahasiswa['usia'] }}</td>
                     <td>{{ $mahasiswa['nama_prodi'] }}</td>
+                    <td>
+                 <a href="{{ route('mahasiswa.edit', $mahasiswa['id']) }}">
+                  Ubah
+                 </a>
+
+            <form
+             action="{{ route('mahasiswa.destroy', $mahasiswa['id']) }}"
+             method="POST"
+             onsubmit="return confirm('Yakin ingin menghapus data mahasiswa ini?')"
+             style="display: inline;"
+    >
+        @csrf
+        @method('DELETE')
+
+        <button type="submit">Hapus</button>
+    </form>
+</td>
                 </tr>
             @empty
                 <tr>
