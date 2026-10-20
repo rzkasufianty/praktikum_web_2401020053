@@ -1,3 +1,4 @@
+   {{-- Pertemuan 6: CRUD Create dan Read --}}
 <!DOCTYPE html>
 <html lang="id">
 <head>

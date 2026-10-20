@@ -1,3 +1,4 @@
+   // Pertemuan 6: CRUD Create dan Read
 <?php
 
 use Illuminate\Http\Request;
